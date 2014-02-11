@@ -24,3 +24,9 @@ public class Consumer : IConsume<SampleMessage>
 var autoSubscriber = new AutoSubscriber(bus, "subscriptionId");
 autoSubscriber.Subscribe(Assembly.GetExecutingAssembly());
 </code></pre>
+
+##EasyAzureServiceBus is available as nuget package.
+
+<pre><code>To install EasyAzureServiceBus, run the following command in the Package Manager Console
+
+PM> Install-Package EasyAzureServiceBus</code></pre>
