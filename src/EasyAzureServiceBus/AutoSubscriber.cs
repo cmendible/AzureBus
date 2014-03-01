@@ -41,14 +41,16 @@
             {
                 foreach (ConsumerInfo subscriptionInfo in kv.Value)
                 {
-                    MethodInfo consumeMethod = subscriptionInfo.ConcreteType
-                        .GetMethod("Consume", BindingFlags.Instance | BindingFlags.Public);
-
                     Type dispatchMethodType = typeof(Action<>).MakeGenericType(subscriptionInfo.MessageType);
-
-                    Delegate dispatchDelegate = Delegate.CreateDelegate(dispatchMethodType, Activator.CreateInstance(subscriptionInfo.ConcreteType), consumeMethod);
                     string subscriptionId = DefaultSubscriptionIdGenerator(subscriptionInfo);
                     MethodInfo busSubscribeMethod = genericBusSubscribeMethod.MakeGenericMethod(subscriptionInfo.MessageType);
+
+                    MethodInfo consumeMethod = subscriptionInfo.ConcreteType
+                        .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                        .Where(m => m.Name == "Consume" && m.GetParameters().Any(predicate => predicate.ParameterType == subscriptionInfo.MessageType))
+                        .SingleOrDefault();
+
+                    Delegate dispatchDelegate = Delegate.CreateDelegate(dispatchMethodType, Activator.CreateInstance(subscriptionInfo.ConcreteType), consumeMethod);
                     busSubscribeMethod.Invoke(bus, new object[] { subscriptionId, dispatchDelegate });
                 }
             }
