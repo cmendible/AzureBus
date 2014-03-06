@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata >
     <id>EasyAzureServiceBus</id>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <authors>Carlos Mendible</authors>
 	<owners>Carlos Mendible</owners>
 	<dependencies>
@@ -12,7 +12,7 @@
     <description>EasyAzureServiceBus: This library, inspired by the simple EasyNetQ API, helps you get started with Service Bus 1.1 for Windows Server pub/sub architecture!</description>
     <language>en-US</language>
 	<projectUrl>https://github.com/cmendible/EasyAzureServiceBus</projectUrl>
-    <tags>Easy Azure Service Bus 1.1 for Windows Server pub sub</tags>
+    <tags>Easy Azure Service Bus 1.1 for Windows Server pub sub topics</tags>
   </metadata>
   <files>
      <file src="..\EasyAzureServiceBus\bin\Release\EasyAzureServiceBus.dll" target="lib\net40" />
