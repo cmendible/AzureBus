@@ -15,6 +15,7 @@
         private readonly string connectionString;
         private readonly NamespaceManager namespaceManager;
         private readonly ConcurrentDictionary<string, SubscriptionClient> subscribeActions = new ConcurrentDictionary<string, SubscriptionClient>();
+        private readonly ConcurrentDictionary<string, TopicClient> topicClients = new ConcurrentDictionary<string, TopicClient>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AzureBus"/> class.
@@ -43,20 +44,14 @@
         {
             string topicName = this.CreateTopicIfNotExists<T>();
 
-            TopicClient topicClient = TopicClient.CreateFromConnectionString(this.connectionString, topicName);
+            if (!topicClients.ContainsKey(topicName))
+            {
+                topicClients.GetOrAdd(topicName, TopicClient.CreateFromConnectionString(this.connectionString, topicName));
+            }
 
-            try
-            {
-                topicClient.Send(new BrokeredMessage(message));
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                topicClient.Close();
-            }
+            TopicClient topicClient = topicClients[topicName];
+
+            topicClient.Send(new BrokeredMessage(message) { MessageId = message.GetHashCode().ToString() });
         }
 
         /// <summary>
@@ -103,6 +98,7 @@
         public void Dispose()
         {
             subscribeActions.ToList().ForEach((s) => s.Value.Close());
+            topicClients.ToList().ForEach((s) => s.Value.Close());
         }
 
         /// <summary>
@@ -116,7 +112,13 @@
 
             if (!namespaceManager.TopicExists(topicName))
             {
-                namespaceManager.CreateTopic(topicName);
+                TopicDescription topicDescription = new TopicDescription(topicName)
+                    {
+                        RequiresDuplicateDetection = Settings.Default.RequiresDuplicateDetection,
+                        DuplicateDetectionHistoryTimeWindow = Settings.Default.DuplicateDetectionHistoryTimeWindow
+                    };
+
+                namespaceManager.CreateTopic(topicDescription);
             }
 
             return topicName;
