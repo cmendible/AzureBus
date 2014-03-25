@@ -12,7 +12,7 @@ IBus bus = AzureCloud.CreateBus();
 bus.Publish(new SampleMessage("message value"));
 
 // Sample consumer class
-public class Consumer : IConsume<SampleMessage>
+public class Consumer : IConsume&lt;SampleMessage>
 {
     public void Consume(SampleMessage message)
     {
@@ -24,6 +24,18 @@ public class Consumer : IConsume<SampleMessage>
 var autoSubscriber = new AutoSubscriber(bus, "subscriptionId");
 autoSubscriber.Subscribe(Assembly.GetExecutingAssembly());
 </code></pre>
+
+Queues are also supported:
+
+<pre><code>// Create a Queue instance
+IQueue queue = AzureCloud.CreateQueue();
+
+// Subscribe to queue for messages of type SampleMessage
+queue.Subscribe&lt;SampleMessage>((m) => Console.WriteLine(m.Value));
+
+// Send message.
+queue.Send(new SampleMessage("message value"));
+</pre></code>
 
 ##EasyAzureServiceBus is available as nuget package.
 
