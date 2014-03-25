@@ -44,12 +44,12 @@
         {
             string topicName = this.CreateTopicIfNotExists<T>();
 
-            if (!topicClients.ContainsKey(topicName))
+            if (!this.topicClients.ContainsKey(topicName))
             {
-                topicClients.GetOrAdd(topicName, TopicClient.CreateFromConnectionString(this.connectionString, topicName));
+                this.topicClients.GetOrAdd(topicName, TopicClient.CreateFromConnectionString(this.connectionString, topicName));
             }
 
-            TopicClient topicClient = topicClients[topicName];
+            TopicClient topicClient = this.topicClients[topicName];
 
             topicClient.Send(new BrokeredMessage(message) { MessageId = message.GetHashCode().ToString() });
         }
@@ -68,9 +68,9 @@
         {
             string topicName = this.CreateTopicIfNotExists<T>();
 
-            if (!namespaceManager.SubscriptionExists(topicName, subscriptionId))
+            if (!this.namespaceManager.SubscriptionExists(topicName, subscriptionId))
             {
-                SubscriptionDescription dataCollectionTopic = namespaceManager.CreateSubscription(topicName, subscriptionId);
+                SubscriptionDescription dataCollectionTopic = this.namespaceManager.CreateSubscription(topicName, subscriptionId);
             }
 
             SubscriptionClient client = SubscriptionClient.CreateFromConnectionString(
@@ -97,8 +97,8 @@
         /// </summary>
         public void Dispose()
         {
-            subscribeActions.ToList().ForEach((s) => s.Value.Close());
-            topicClients.ToList().ForEach((s) => s.Value.Close());
+            this.subscribeActions.ToList().ForEach((s) => s.Value.Close());
+            this.topicClients.ToList().ForEach((s) => s.Value.Close());
         }
 
         /// <summary>
@@ -110,7 +110,7 @@
         {
             string topicName = typeof(T).FullName.ToLowerInvariant();
 
-            if (!namespaceManager.TopicExists(topicName))
+            if (!this.namespaceManager.TopicExists(topicName))
             {
                 TopicDescription topicDescription = new TopicDescription(topicName)
                     {
@@ -118,7 +118,7 @@
                         DuplicateDetectionHistoryTimeWindow = Settings.Default.DuplicateDetectionHistoryTimeWindow
                     };
 
-                namespaceManager.CreateTopic(topicDescription);
+                this.namespaceManager.CreateTopic(topicDescription);
             }
 
             return topicName;

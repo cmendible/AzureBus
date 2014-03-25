@@ -23,6 +23,18 @@
                 bus.Publish(new SampleMessage(i.ToString()));
             }
 
+            // Create a Queue instance
+            IQueue queue = AzureCloud.CreateQueue();
+
+            // Subscribe to queue for messages of type SampleMessage
+            queue.Subscribe<SampleMessage>((m) => Console.WriteLine(m.Value));
+
+            // Send 100 messages.
+            for (int i = 0; i < 100; i++)
+            {
+                queue.Send(new SampleMessage(i.ToString()));
+            }
+
             Console.ReadKey();
         }
     }

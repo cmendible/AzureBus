@@ -52,12 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoSubscriber.cs" />
+    <Compile Include="Bus\AutoSubscriber.cs" />
     <Compile Include="AzureCloud.cs" />
-    <Compile Include="AzureBus.cs" />
-    <Compile Include="ConsumerInfo.cs" />
-    <Compile Include="IBus.cs" />
-    <Compile Include="IConsume.cs" />
+    <Compile Include="Bus\AzureBus.cs" />
+    <Compile Include="Bus\ConsumerInfo.cs" />
+    <Compile Include="Queue\AzureQueue.cs" />
+    <Compile Include="Queue\IQueue.cs" />
+    <Compile Include="Bus\IBus.cs" />
+    <Compile Include="Bus\IConsume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.Designer.cs">
       <AutoGen>True</AutoGen>

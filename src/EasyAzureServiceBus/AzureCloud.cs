@@ -23,5 +23,24 @@
         {
             return new AzureBus(connectionString);
         }
+
+        /// <summary>
+        /// Creates the queue.
+        /// </summary>
+        /// <returns></returns>
+        public static IQueue CreateQueue()
+        {
+            return new AzureQueue();
+        }
+
+        /// <summary>
+        /// Creates the queue.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <returns></returns>
+        public static IQueue CreateQueue(string connectionString)
+        {
+            return new AzureQueue(connectionString);
+        }
     }
 }
