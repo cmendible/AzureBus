@@ -37,7 +37,7 @@ queue.Subscribe&lt;SampleMessage>((m) => Console.WriteLine(m.Value));
 queue.Send(new SampleMessage("message value"));
 </pre></code>
 
-##EasyAzureServiceBus is available as nuget package.
+## EasyAzureServiceBus is available as nuget package.
 
 <pre><code>To install EasyAzureServiceBus, run the following command in the Package Manager Console
 
