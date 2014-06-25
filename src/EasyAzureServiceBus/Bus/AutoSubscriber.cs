@@ -63,19 +63,20 @@
         /// <returns></returns>
         protected virtual string DefaultSubscriptionIdGenerator(ConsumerInfo consumerInfo)
         {
-            StringBuilder r = new StringBuilder();
-            string unique = string.Concat(this.subscriptionId, ":", consumerInfo.ConcreteType.FullName, ":", consumerInfo.MessageType.FullName);
+            ////StringBuilder r = new StringBuilder();
+            ////string unique = string.Concat(this.subscriptionId, ":", consumerInfo.ConcreteType.FullName, ":", consumerInfo.MessageType.FullName);
 
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] buff = md5.ComputeHash(Encoding.UTF8.GetBytes(unique));
-                foreach (byte b in buff)
-                {
-                    r.Append(b.ToString("x2"));
-                }
-            }
+            ////using (MD5 md5 = MD5.Create())
+            ////{
+            ////    byte[] buff = md5.ComputeHash(Encoding.UTF8.GetBytes(unique));
+            ////    foreach (byte b in buff)
+            ////    {
+            ////        r.Append(b.ToString("x2"));
+            ////    }
+            ////}
 
-            return string.Concat(this.subscriptionId, "_", r.ToString());
+            return this.subscriptionId;
+            //// string.Concat(this.subscriptionId, "_", r.ToString());
         }
 
         /// <summary>

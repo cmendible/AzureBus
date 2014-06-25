@@ -14,26 +14,27 @@
             IBus bus = AzureCloud.CreateBus();
 
             // Subscribe to messages.
-            var autoSubscriber = new AutoSubscriber(bus, "Consumer");
+            var autoSubscriber = new AutoSubscriber(bus, "EasyAzureServiceBus.Sample.Console");
             autoSubscriber.Subscribe(Assembly.GetExecutingAssembly());
 
             // Send 100 messages.
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 bus.Publish(new SampleMessage(i.ToString()));
+                bus.Publish(new AnotherSampleMessage(i.ToString()));
             }
 
             // Create a Queue instance
             IQueue queue = AzureCloud.CreateQueue();
 
-            // Subscribe to queue for messages of type SampleMessage
-            queue.Subscribe<SampleMessage>((m) => Console.WriteLine(m.Value));
-
             // Send 100 messages.
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 queue.Send(new SampleMessage(i.ToString()));
             }
+
+            // Subscribe to queue for messages of type SampleMessage
+            queue.Subscribe<SampleMessage>((m) => Console.WriteLine(string.Format("Message received from Queue: Value = {0}", m.Value)));
 
             Console.ReadKey();
         }

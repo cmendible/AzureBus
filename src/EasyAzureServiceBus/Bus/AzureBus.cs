@@ -1,11 +1,13 @@
 ﻿namespace EasyAzureServiceBus
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using System;
-    using System.Linq;
-    using System.Collections.Concurrent;
-    using System.Configuration;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Microsoft ServiceBus Abstraction.
@@ -14,7 +16,8 @@
     {
         private readonly string connectionString;
         private readonly NamespaceManager namespaceManager;
-        private readonly ConcurrentDictionary<string, SubscriptionClient> subscribeActions = new ConcurrentDictionary<string, SubscriptionClient>();
+        private readonly ConcurrentDictionary<string, IEnumerable<Delegate>> subscriptionActions = new ConcurrentDictionary<string, IEnumerable<Delegate>>();
+        private readonly ConcurrentDictionary<string, SubscriptionClient> subscriptionClients = new ConcurrentDictionary<string, SubscriptionClient>();
         private readonly ConcurrentDictionary<string, TopicClient> topicClients = new ConcurrentDictionary<string, TopicClient>();
 
         /// <summary>
@@ -51,7 +54,17 @@
 
             TopicClient topicClient = this.topicClients[topicName];
 
-            topicClient.Send(new BrokeredMessage(message) { MessageId = message.GetHashCode().ToString() });
+            Type messageType = typeof(T);
+
+            BrokeredMessage envelope = new BrokeredMessage(JsonConvert.SerializeObject(message));
+            envelope.Properties["Message.Type.AssemblyQualifiedName"] = messageType.AssemblyQualifiedName;
+            envelope.Properties["Message.Type.Assembly"] = messageType.Assembly.FullName;
+            envelope.Properties["Message.Type.FullName"] = messageType.FullName;
+            envelope.Properties["Message.Type.Namespace"] = messageType.Namespace;
+
+            envelope.MessageId = message.GetHashCode().ToString();
+
+            topicClient.Send(envelope);
         }
 
         /// <summary>
@@ -67,29 +80,49 @@
         public void Subscribe<T>(string subscriptionId, Action<T> onMessage)
         {
             string topicName = this.CreateTopicIfNotExists<T>();
+            string realSubscriptionId = subscriptionId.ToLowerInvariant();
 
-            if (!this.namespaceManager.SubscriptionExists(topicName, subscriptionId))
+            if (!this.namespaceManager.SubscriptionExists(topicName, realSubscriptionId))
             {
-                SubscriptionDescription dataCollectionTopic = this.namespaceManager.CreateSubscription(topicName, subscriptionId);
+                SubscriptionDescription dataCollectionTopic = this.namespaceManager.CreateSubscription(topicName, realSubscriptionId);
             }
 
-            SubscriptionClient client = SubscriptionClient.CreateFromConnectionString(
-                this.connectionString, 
-                topicName, 
-                subscriptionId, 
-                ReceiveMode.PeekLock);
+            string descriptor = topicName + ":" + realSubscriptionId;
+            subscriptionActions.AddOrUpdate(descriptor, new Delegate[] { onMessage }, (key, oldValue) => oldValue.Concat(new Delegate[] { onMessage }));
 
-            OnMessageOptions options = new OnMessageOptions();
-            options.AutoComplete = true;
-            options.MaxConcurrentCalls = 2;
-
-            client.OnMessage(message =>
+            Func<SubscriptionClient> clientSetup = () =>
                 {
-                    onMessage.Invoke(message.GetBody<T>());
-                }, 
-                options);
+                    SubscriptionClient client = SubscriptionClient.CreateFromConnectionString(
+                        this.connectionString,
+                        topicName,
+                        realSubscriptionId,
+                        ReceiveMode.PeekLock);
 
-            this.subscribeActions.GetOrAdd(subscriptionId, client);
+                    OnMessageOptions options = new OnMessageOptions();
+                    options.AutoComplete = true;
+                    options.MaxConcurrentCalls = 1;
+
+                    client.OnMessage(envelope =>
+                        {
+                            string messageTypeAssemblyQualifiedName = envelope.Properties["Message.Type.AssemblyQualifiedName"].ToString();
+
+                            IEnumerable<Delegate> actions = subscriptionActions[descriptor]
+                                .Where(a => a.GetType().GetGenericArguments().First().AssemblyQualifiedName == messageTypeAssemblyQualifiedName);
+
+                            foreach (Delegate action in actions)
+                            {
+                                Type messageType = action.GetType().GetGenericArguments().First();
+                                object message = JsonConvert.DeserializeObject(envelope.GetBody<string>(), messageType);
+
+                                action.DynamicInvoke(message);
+                            }
+                        },
+                        options);
+
+                    return client;
+                };
+
+            this.subscriptionClients.GetOrAdd(descriptor, clientSetup.Invoke());
         }
 
         /// <summary>
@@ -97,8 +130,9 @@
         /// </summary>
         public void Dispose()
         {
-            this.subscribeActions.ToList().ForEach((s) => s.Value.Close());
+            this.subscriptionClients.ToList().ForEach((s) => s.Value.Close());
             this.topicClients.ToList().ForEach((s) => s.Value.Close());
+            this.subscriptionActions.Clear();
         }
 
         /// <summary>
@@ -108,7 +142,7 @@
         /// <returns>The topic name</returns>
         private string CreateTopicIfNotExists<T>()
         {
-            string topicName = typeof(T).FullName.ToLowerInvariant();
+            string topicName = !Settings.Default.TopicPerMessage ? typeof(T).Namespace.ToLowerInvariant() : typeof(T).FullName.ToLowerInvariant();
 
             if (!this.namespaceManager.TopicExists(topicName))
             {

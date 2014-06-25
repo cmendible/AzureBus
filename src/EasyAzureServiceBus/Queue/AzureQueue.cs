@@ -74,7 +74,7 @@
             queueClient.OnMessage(message =>
                 {
                     onMessage.Invoke(message.GetBody<T>());
-                }, 
+                },
                 options);
 
             this.subscriptions.GetOrAdd(queueName, queueClient);
@@ -96,7 +96,7 @@
         /// <returns>The topic name</returns>
         private string CreateQueueIfNotExists<T>()
         {
-            string queueName = string.Format("queue_{0}", typeof(T).FullName.ToLowerInvariant());
+            string queueName = string.Format("{0}", typeof(T).FullName.ToLowerInvariant());
 
             if (!this.namespaceManager.QueueExists(queueName))
             {
