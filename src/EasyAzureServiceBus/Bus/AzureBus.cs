@@ -109,12 +109,16 @@
                             IEnumerable<Delegate> actions = subscriptionActions[descriptor]
                                 .Where(a => a.GetType().GetGenericArguments().First().AssemblyQualifiedName == messageTypeAssemblyQualifiedName);
 
-                            foreach (Delegate action in actions)
+                            if (actions.Any())
                             {
-                                Type messageType = action.GetType().GetGenericArguments().First();
-                                object message = JsonConvert.DeserializeObject(envelope.GetBody<string>(), messageType);
+                                Type messageType = actions.First().GetType().GetGenericArguments().First();
 
-                                action.DynamicInvoke(message);
+                                foreach (Delegate action in actions)
+                                {
+                                    object message = JsonConvert.DeserializeObject(envelope.GetBody<string>(), messageType);
+
+                                    action.DynamicInvoke(message);
+                                }
                             }
                         },
                         options);
