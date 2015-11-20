@@ -104,10 +104,10 @@
 
                     client.OnMessage(envelope =>
                         {
-                            string messageTypeAssemblyQualifiedName = envelope.Properties["Message.Type.AssemblyQualifiedName"].ToString();
+                            string messageTypeFullName = envelope.Properties["Message.Type.FullName"].ToString();
 
                             IEnumerable<Delegate> actions = subscriptionActions[descriptor]
-                                .Where(a => a.GetType().GetGenericArguments().First().AssemblyQualifiedName == messageTypeAssemblyQualifiedName);
+                                .Where(a => a.GetType().GetGenericArguments().First().FullName == messageTypeFullName);
 
                             if (actions.Any())
                             {
