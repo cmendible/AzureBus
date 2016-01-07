@@ -2,11 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata >
     <id>EasyAzureServiceBus</id>
-    <version>1.0.0.6</version>
+    <version>1.0.0.7</version>
     <authors>Carlos Mendible</authors>
     <owners>Carlos Mendible</owners>
     <dependencies>
-      <dependency id="ServiceBus.v1_1" version="1.0.1.0" />
+      <dependency id="ServiceBus.v1_1" version="1.0.5" />
+      <dependency id="Newtonsoft.Json" version="7.0.1" />
     </dependencies>
     <summary>EasyAzureServiceBus: This library, inspired by the simple EasyNetQ API, helps you get started with Service Bus 1.1 for Windows Server pub/sub and queues!</summary>
     <description>EasyAzureServiceBus: This library, inspired by the simple EasyNetQ API, helps you get started with Service Bus 1.1 for Windows Server pub/sub and queues!</description>
