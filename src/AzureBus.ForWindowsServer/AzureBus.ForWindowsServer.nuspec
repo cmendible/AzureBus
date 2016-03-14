@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata >
+    <id>AzureBus.ForWindowsServer</id>
+    <version>$version$</version>
+    <authors>Carlos Mendible</authors>
+    <owners>Carlos Mendible</owners>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="7.0.1" />
+      <dependency id="ServiceBus.v1_1" version="1.0.5" />
+    </dependencies>
+    <summary>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Service Bus 1.1 for Windows Server pub/sub and queues!</summary>
+    <description>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Service Bus 1.1 for Windows Server pub/sub and queues!</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/cmendible/AzureBus</projectUrl>
+    <tags>AzureBus Service Bus for Windows Server pub sub topics queues</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\AzureBus.dll" target="lib\net40" />
+    <file src="bin\Release\AzureBus.xml" target="lib\net40" />
+  </files>
+</package>

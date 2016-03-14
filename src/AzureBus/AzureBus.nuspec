@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata >
+    <id>AzureBus</id>
+    <version>$version$</version>
+    <authors>Carlos Mendible</authors>
+    <owners>Carlos Mendible</owners>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="7.0.1" />
+      <dependency id="WindowsAzure.ServiceBus" version="3.1.5" />
+    </dependencies>
+    <summary>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Microsoft Azure Service Bus pub/sub and queues!</summary>
+    <description>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Microsoft Azure Service Bus pub/sub and queues!</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/cmendible/AzureBus</projectUrl>
+    <tags>AzureBus Microsoft Azure Service Bus pub sub topics queues</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\AzureBus.dll" target="lib\net45-full" />
+    <file src="bin\Release\AzureBus.xml" target="lib\net45-full" />
+  </files>
+</package>

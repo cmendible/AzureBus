@@ -1,11 +1,11 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/0owj9t46xn0tp6sw?svg=true)](https://ci.appveyor.com/project/cmendible/easyazureservicebus)
+[![Build status](https://ci.appveyor.com/api/projects/status/0owj9t46xn0tp6sw?svg=true)](https://ci.appveyor.com/project/cmendible/azurebus)
 
-EasyAzureServiceBus
+AzureBus
 ===================
 
-This library, inspired by the simple [EasyNetQ](http://easynetq.com/ "EasyNetQ") API, helps you get started with [Service Bus 1.1 for Windows Server](http://msdn.microsoft.com/en-us/library/windowsazure/dn282144.aspx) pub/sub architecture!  
+Inspired by the simple [EasyNetQ](http://easynetq.com/ "EasyNetQ") API, this library helps you get started with Microsoft Azure Service Bus or [Service Bus 1.1 for Windows Server](http://msdn.microsoft.com/en-us/library/windowsazure/dn282144.aspx) pub/sub and queues!
 
-<pre><code>using EasyAzureServiceBus;
+<pre><code>using AzureBus;
 
 // Create a bus instance
 IBus bus = AzureCloud.CreateBus();
@@ -39,8 +39,8 @@ queue.Subscribe&lt;SampleMessage>((m) => Console.WriteLine(m.Value));
 queue.Send(new SampleMessage("message value"));
 </pre></code>
 
-## EasyAzureServiceBus is available as nuget package.
+AzureBus is available as nuget package.
 
-<pre><code>To install EasyAzureServiceBus, run the following command in the Package Manager Console
+<pre><code>To install AzureBus, run the following command in the Package Manager Console
 
-PM> Install-Package EasyAzureServiceBus</code></pre>
+PM> Install-Package AzureBus</code></pre>
