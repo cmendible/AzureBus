@@ -7,9 +7,9 @@
     using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
-    /// Helper to create and configure an AzureBus instance
+    /// Helper to create and configure an Bus instance
     /// </summary>
-    internal class AzureBusConfiguration : IAzureBusConfiguration
+    internal class BusConfiguration : IBusConfiguration
     {
         /// <summary>
         /// Gets or sets the connection string.
@@ -42,9 +42,9 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AzureBusConfiguration"/> class.
+        /// Initializes a new instance of the <see cref="BusConfiguration"/> class.
         /// </summary>
-        internal AzureBusConfiguration()
+        internal BusConfiguration()
         {
             this.ConnectionString = ConfigurationManager.AppSettings.AllKeys.Contains("Microsoft.ServiceBus.ConnectionString") ? ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"] : string.Empty;
 
@@ -58,20 +58,20 @@
         /// Sets the connection string
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        /// <returns>An AzureBusConfiguration object.</returns>
-        public IAzureBusConfiguration WithConnectionString(string connectionString)
+        /// <returns>An BusConfiguration object.</returns>
+        public IBusConfiguration WithConnectionString(string connectionString)
         {
             this.ConnectionString = connectionString;
             return this;
         }
 
-        public IAzureBusConfiguration WithLogger(ILogger logger)
+        public IBusConfiguration WithLogger(ILogger logger)
         {
             this.Logger = logger;
             return this;
         }
 
-        public IAzureBusConfiguration WithPublishConfiguration(Action<IPublishConfiguration> configure)
+        public IBusConfiguration WithPublishConfiguration(Action<IPublishConfiguration> configure)
         {
             this.PublishConfiguration = () => 
                 {
@@ -83,7 +83,7 @@
             return this;
         }
 
-        public IAzureBusConfiguration WithSubscribtionConfiguration(Action<ISubscribtionConfiguration> configure)
+        public IBusConfiguration WithSubscribtionConfiguration(Action<ISubscribtionConfiguration> configure)
         {
             this.SubscribtionConfiguration = () =>
             {

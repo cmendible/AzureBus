@@ -59,9 +59,9 @@
   <ItemGroup>
     <Compile Include="Bus\AutoSubscriber\AutoSubscriber.cs" />
     <Compile Include="AzureCloud.cs" />
-    <Compile Include="Bus\AzureBus.cs" />
-    <Compile Include="Bus\Configuration\AzureBusConfiguration.cs" />
-    <Compile Include="Bus\Configuration\AzureBusConfigurationExtensions.cs" />
+    <Compile Include="Bus\Bus.cs" />
+    <Compile Include="Bus\Configuration\BusConfiguration.cs" />
+    <Compile Include="Bus\Configuration\BusConfigurationExtensions.cs" />
     <Compile Include="Bus\Configuration\Publish\IPublishConfiguration.cs" />
     <Compile Include="Bus\Configuration\Publish\PublishConfiguration.cs" />
     <Compile Include="Bus\Configuration\Subscription\ISubscribtionConfiguration.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Bus\Configuration\Topic\ITopicConfiguration[T].cs" />
     <Compile Include="Bus\Configuration\Topic\TopicConfiguration[T].cs" />
     <Compile Include="Bus\AutoSubscriber\ConsumerInfo.cs" />
-    <Compile Include="Bus\Configuration\IAzureBusConfiguration.cs" />
+    <Compile Include="Bus\Configuration\IBusConfiguration.cs" />
     <Compile Include="Logger\ConsoleLogger.cs" />
     <Compile Include="Logger\EmptyLogger.cs" />
     <Compile Include="Logger\ILogger.cs" />

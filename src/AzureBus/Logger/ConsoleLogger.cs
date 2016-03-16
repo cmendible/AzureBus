@@ -6,12 +6,7 @@
     {
         private const string layout = "{0} - {1} - {2} - {3}";
 
-        private string type;
-
-        public ConsoleLogger(Type type)
-        {
-            this.type = type.FullName;
-        }
+        private string type = typeof(Bus).FullName;
 
         public void Debug(object message)
         {

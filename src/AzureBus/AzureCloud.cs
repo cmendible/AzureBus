@@ -8,12 +8,12 @@
     public static class AzureCloud
     {
         /// <summary>
-        /// Creates an AzureBusConfiguration object.
+        /// Creates an BusConfiguration object.
         /// </summary>
-        /// <returns>An AzureBusConfiguration object.</returns>
-        public static IAzureBusConfiguration ConfigureBus()
+        /// <returns>An BusConfiguration object.</returns>
+        public static IBusConfiguration ConfigureBus()
         {
-            return new AzureBusConfiguration();
+            return new BusConfiguration();
         }
 
         /// <summary>
@@ -22,7 +22,7 @@
         /// <returns></returns>
         public static IBus CreateBus()
         {
-            return new AzureBusConfiguration()
+            return new BusConfiguration()
                 .CreateBus();
         }
 
@@ -34,7 +34,7 @@
         [Obsolete("Use the new ConfigureBus method")]
         public static IBus CreateBus(string connectionString)
         {
-            return new AzureBusConfiguration()
+            return new BusConfiguration()
                 .WithConnectionString(connectionString)
                 .CreateBus();
         }

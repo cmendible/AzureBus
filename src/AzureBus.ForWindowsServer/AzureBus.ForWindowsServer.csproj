@@ -68,17 +68,17 @@
     <Compile Include="..\AzureBus\Bus\AutoSubscriber\IConsume.cs">
       <Link>Bus\AutoSubscriber\IConsume.cs</Link>
     </Compile>
-    <Compile Include="..\AzureBus\Bus\AzureBus.cs">
-      <Link>Bus\AzureBus.cs</Link>
+    <Compile Include="..\AzureBus\Bus\Bus.cs">
+      <Link>Bus\Bus.cs</Link>
     </Compile>
-    <Compile Include="..\AzureBus\Bus\Configuration\AzureBusConfiguration.cs">
-      <Link>Bus\Configuration\AzureBusConfiguration.cs</Link>
+    <Compile Include="..\AzureBus\Bus\Configuration\BusConfiguration.cs">
+      <Link>Bus\Configuration\BusConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\AzureBus\Bus\Configuration\AzureBusConfigurationExtensions.cs">
-      <Link>Bus\Configuration\AzureBusConfigurationExtensions.cs</Link>
+    <Compile Include="..\AzureBus\Bus\Configuration\BusConfigurationExtensions.cs">
+      <Link>Bus\Configuration\BusConfigurationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AzureBus\Bus\Configuration\IAzureBusConfiguration.cs">
-      <Link>Bus\Configuration\IAzureBusConfiguration.cs</Link>
+    <Compile Include="..\AzureBus\Bus\Configuration\IBusConfiguration.cs">
+      <Link>Bus\Configuration\IBusConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\AzureBus\Bus\Configuration\Publish\IPublishConfiguration.cs">
       <Link>Bus\Configuration\Publish\IPublishConfiguration.cs</Link>

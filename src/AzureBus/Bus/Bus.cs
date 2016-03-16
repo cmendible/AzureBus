@@ -11,7 +11,7 @@
     /// <summary>
     /// Microsoft ServiceBus Abstraction.
     /// </summary>
-    public class AzureBus : IBus
+    public class Bus : IBus
     {
         private readonly NamespaceManager namespaceManager;
         private readonly ConcurrentDictionary<string, IEnumerable<Delegate>> subscriptionActions = new ConcurrentDictionary<string, IEnumerable<Delegate>>();
@@ -19,10 +19,10 @@
         private readonly ConcurrentDictionary<string, TopicClient> topicClients = new ConcurrentDictionary<string, TopicClient>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AzureBus" /> class.
+        /// Initializes a new instance of the <see cref="Bus" /> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        internal AzureBus(IAzureBusConfiguration configuration)
+        internal Bus(IBusConfiguration configuration)
         {
             this.Configuration = configuration;
             this.namespaceManager = NamespaceManager.CreateFromConnectionString(configuration.ConnectionString);
@@ -34,7 +34,7 @@
         /// <value>
         /// The configuration.
         /// </value>
-        public IAzureBusConfiguration Configuration
+        public IBusConfiguration Configuration
         {
             get;
             private set;
