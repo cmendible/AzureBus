@@ -12,6 +12,7 @@
     <summary>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Microsoft Azure Service Bus pub/sub and queues!</summary>
     <description>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Microsoft Azure Service Bus pub/sub and queues!</description>
     <language>en-US</language>
+    <title>AzureBus</title>
     <projectUrl>https://github.com/cmendible/AzureBus</projectUrl>
     <tags>AzureBus Microsoft Azure Service Bus pub sub topics queues</tags>
   </metadata>
