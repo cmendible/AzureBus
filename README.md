@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/0owj9t46xn0tp6sw?svg=true)](https://ci.appveyor.com/project/cmendible/azurebus)
+[![Build status](https://ci.appveyor.com/api/projects/status/80ylybuqawhvbr14?svg=true)](https://ci.appveyor.com/project/cmendible/azurebus)
 
 AzureBus
 ===================
