@@ -155,7 +155,7 @@
                             Type messageType = typeof(T);
 
                             IEnumerable<Delegate> actions = subscriptionActions[descriptor]
-                                .Where(a => a.GetType().GetGenericArguments().First().FullName == messageType.FullName);
+                                .Where(a => a.GetType().GetGenericArguments().First().FullName == envelope.Properties["Message.Type.FullName"]);
 
                             if (actions.Any())
                             {
