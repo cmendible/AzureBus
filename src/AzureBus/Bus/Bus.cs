@@ -113,9 +113,9 @@
         /// <param name="onMessage">
         /// The action to run when a message arrives.
         /// </param>
-        public void Subscribe<T>(string subscriptionId, Action<T> onMessage, Action<ISubscribtionConfiguration> configure)
+        public void Subscribe<T>(string subscriptionId, Action<T> onMessage, Action<ISubscriptionConfiguration> configure)
         {
-            ISubscribtionConfiguration configuration = this.Configuration.SubscribtionConfiguration();
+            ISubscriptionConfiguration configuration = this.Configuration.SubscribtionConfiguration();
             configure(configuration);
 
             string topic = this.CreateTopicIfNotExists<T>(configuration);

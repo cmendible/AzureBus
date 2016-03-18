@@ -1,6 +1,6 @@
 ﻿namespace AzureBus
 {
-    public class SubscribtionConfiguration : TopicConfiguration<ISubscribtionConfiguration>, ISubscribtionConfiguration
+    public class SubscriptionConfiguration : TopicConfiguration<ISubscriptionConfiguration>, ISubscriptionConfiguration
     {
         public int MaxConcurrentCalls
         {
@@ -14,19 +14,19 @@
             private set;
         }
 
-        public SubscribtionConfiguration()
+        public SubscriptionConfiguration()
         {
             this.ReceiveMode = Microsoft.ServiceBus.Messaging.ReceiveMode.PeekLock;
             this.MaxConcurrentCalls = 1;
         }
 
-        public ISubscribtionConfiguration WithReceiveAndDelete()
+        public ISubscriptionConfiguration WithReceiveAndDelete()
         {
             this.ReceiveMode = Microsoft.ServiceBus.Messaging.ReceiveMode.ReceiveAndDelete;
             return this;
         }
 
-        public ISubscribtionConfiguration WithMaxConcurrentCalls(int maxConcurrentCalls)
+        public ISubscriptionConfiguration WithMaxConcurrentCalls(int maxConcurrentCalls)
         {
             this.MaxConcurrentCalls = maxConcurrentCalls;
             return this;

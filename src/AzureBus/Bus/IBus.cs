@@ -41,6 +41,6 @@
         /// <param name="subscriptionId">A unique identifier for the subscription.</param>
         /// <param name="onMessage">The action to run when a message arrives.</param>
         /// <param name="configure">The configure action.</param>
-        void Subscribe<T>(string subscriptionId, Action<T> onMessage, Action<ISubscribtionConfiguration> configure);
+        void Subscribe<T>(string subscriptionId, Action<T> onMessage, Action<ISubscriptionConfiguration> configure);
     }
 }

@@ -12,7 +12,7 @@
 
         public PublishConfiguration()
         {
-            this.GetMessageId = (message) => { return message.GetHashCode().ToString(); };
+            this.GetMessageId = (message) => { return Guid.NewGuid().ToString(); };
         }
 
         public IPublishConfiguration WithMessageId(Func<object, string> configure)

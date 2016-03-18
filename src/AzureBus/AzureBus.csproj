@@ -62,12 +62,14 @@
     <Compile Include="Bus\Bus.cs" />
     <Compile Include="Bus\Configuration\BusConfiguration.cs" />
     <Compile Include="Bus\Configuration\BusConfigurationExtensions.cs" />
+    <Compile Include="Bus\Configuration\Publish\PublishConfigurationExtensions.cs" />
     <Compile Include="Bus\Configuration\Publish\IPublishConfiguration.cs" />
     <Compile Include="Bus\Configuration\Publish\PublishConfiguration.cs" />
-    <Compile Include="Bus\Configuration\Subscription\ISubscribtionConfiguration.cs" />
-    <Compile Include="Bus\Configuration\Subscription\SubscribtionConfiguration.cs" />
+    <Compile Include="Bus\Configuration\Subscription\ISubscriptionConfiguration.cs" />
+    <Compile Include="Bus\Configuration\Subscription\SubscriptionConfiguration.cs" />
     <Compile Include="Bus\Configuration\Topic\ITopicConfiguration.cs" />
     <Compile Include="Bus\Configuration\Topic\ITopicConfiguration[T].cs" />
+    <Compile Include="Bus\Configuration\Topic\TopicConfigurationExtensions.cs" />
     <Compile Include="Bus\Configuration\Topic\TopicConfiguration[T].cs" />
     <Compile Include="Bus\AutoSubscriber\ConsumerInfo.cs" />
     <Compile Include="Bus\Configuration\IBusConfiguration.cs" />

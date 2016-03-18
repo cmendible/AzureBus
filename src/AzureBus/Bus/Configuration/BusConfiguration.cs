@@ -35,7 +35,7 @@
             private set;
         }
 
-        public Func<ISubscribtionConfiguration> SubscribtionConfiguration
+        public Func<ISubscriptionConfiguration> SubscribtionConfiguration
         {
             get;
             private set;
@@ -51,7 +51,7 @@
             this.Logger = new EmptyLogger();
 
             this.PublishConfiguration = () => { return new PublishConfiguration(); };
-            this.SubscribtionConfiguration = () => { return new SubscribtionConfiguration(); };
+            this.SubscribtionConfiguration = () => { return new SubscriptionConfiguration(); };
         }
 
         /// <summary>
@@ -83,11 +83,11 @@
             return this;
         }
 
-        public IBusConfiguration WithSubscribtionConfiguration(Action<ISubscribtionConfiguration> configure)
+        public IBusConfiguration WithSubscriptionConfiguration(Action<ISubscriptionConfiguration> configure)
         {
             this.SubscribtionConfiguration = () =>
             {
-                ISubscribtionConfiguration configuration = new SubscribtionConfiguration();
+                ISubscriptionConfiguration configuration = new SubscriptionConfiguration();
                 configure(configuration);
                 return configuration;
             };

@@ -86,17 +86,23 @@
     <Compile Include="..\AzureBus\Bus\Configuration\Publish\PublishConfiguration.cs">
       <Link>Bus\Configuration\Publish\PublishConfiguration.cs</Link>
     </Compile>
-    <Compile Include="..\AzureBus\Bus\Configuration\Subscription\ISubscribtionConfiguration.cs">
-      <Link>Bus\Configuration\Subscription\ISubscribtionConfiguration.cs</Link>
+    <Compile Include="..\AzureBus\Bus\Configuration\Publish\PublishConfigurationExtensions.cs">
+      <Link>Bus\Configuration\Publish\PublishConfigurationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AzureBus\Bus\Configuration\Subscription\SubscribtionConfiguration.cs">
-      <Link>Bus\Configuration\Subscription\SubscribtionConfiguration.cs</Link>
+    <Compile Include="..\AzureBus\Bus\Configuration\Subscription\ISubscriptionConfiguration.cs">
+      <Link>Bus\Configuration\Subscription\ISubscriptionConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Bus\Configuration\Subscription\SubscriptionConfiguration.cs">
+      <Link>Bus\Configuration\Subscription\SubscriptionConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\AzureBus\Bus\Configuration\Topic\ITopicConfiguration.cs">
       <Link>Bus\Configuration\Topic\ITopicConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\AzureBus\Bus\Configuration\Topic\ITopicConfiguration[T].cs">
       <Link>Bus\Configuration\Topic\ITopicConfiguration[T].cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Bus\Configuration\Topic\TopicConfigurationExtensions.cs">
+      <Link>Bus\Configuration\Topic\TopicConfigurationExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AzureBus\Bus\Configuration\Topic\TopicConfiguration[T].cs">
       <Link>Bus\Configuration\Topic\TopicConfiguration[T].cs</Link>
