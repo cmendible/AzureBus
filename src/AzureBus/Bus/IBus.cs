@@ -26,21 +26,17 @@
         /// Subscribes to a stream of messages that match a .NET type.
         /// </summary>
         /// <typeparam name="T">The type to subscribe to</typeparam>
-        /// <param name="subscriptionId">
-        /// A unique identifier for the subscription.
-        /// </param>
-        /// <param name="onMessage">
-        /// The action to run when a message arrives.
-        /// </param>
-        void Subscribe<T>(string subscriptionId, Action<T> onMessage);
+        /// <param name="subscription">A unique identifier for the subscription.</param>
+        /// <param name="onMessage">The action to run when a message arrives.</param>
+        void Subscribe<T>(string subscription, Action<T> onMessage) where T : class;
 
         /// <summary>
         /// Subscribes to a stream of messages that match a .NET type.
         /// </summary>
         /// <typeparam name="T">The type to subscribe to</typeparam>
-        /// <param name="subscriptionId">A unique identifier for the subscription.</param>
+        /// <param name="subscription">A unique identifier for the subscription.</param>
         /// <param name="onMessage">The action to run when a message arrives.</param>
         /// <param name="configure">The configure action.</param>
-        void Subscribe<T>(string subscriptionId, Action<T> onMessage, Action<ISubscriptionConfiguration> configure);
+        void Subscribe<T>(Action<T> onMessage, Action<ISubscriptionConfiguration> configure) where T : class;
     }
 }

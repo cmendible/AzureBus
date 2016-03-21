@@ -26,7 +26,7 @@
         {
             this.RequiresDuplicateDetection = true;
             this.DuplicateDetectionHistoryTimeWindow = new TimeSpan(1, 0, 0, 0);
-            this.GetTopicName = (type) => { return type.Namespace.ToLowerInvariant(); };
+            this.GetTopicName = (type) => { return type.FullName.ToLowerInvariant(); };
         }
 
         public T WithDuplicateDetection(bool enable, TimeSpan? timeWindow = null)

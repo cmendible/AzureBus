@@ -116,8 +116,8 @@
     <Compile Include="..\AzureBus\Logger\EmptyLogger.cs">
       <Link>Logger\EmptyLogger.cs</Link>
     </Compile>
-    <Compile Include="..\AzureBus\Logger\ILogger.cs">
-      <Link>Logger\ILogger.cs</Link>
+    <Compile Include="..\AzureBus\Logger\IAzureBusLogger.cs">
+      <Link>Logger\IAzureBusLogger.cs</Link>
     </Compile>
     <Compile Include="..\AzureBus\Properties\AssemblyInfoVersion.cs">
       <Link>Properties\AssemblyInfoVersion.cs</Link>

@@ -4,7 +4,6 @@
     using System.Configuration;
     using System.Linq;
     using Loggers;
-    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Helper to create and configure an Bus instance
@@ -23,7 +22,7 @@
             private set;
         }
 
-        public ILogger Logger
+        public IAzureBusLogger Logger
         {
             get;
             private set;
@@ -65,7 +64,7 @@
             return this;
         }
 
-        public IBusConfiguration WithLogger(ILogger logger)
+        public IBusConfiguration WithLogger(IAzureBusLogger logger)
         {
             this.Logger = logger;
             return this;

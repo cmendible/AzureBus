@@ -18,7 +18,7 @@
         /// Initializes a new instance of the <see cref="AutoSubscriber"/> class.
         /// </summary>
         /// <param name="bus">The bus.</param>
-        /// <param name="subscriptionId">The subscription identifier.</param>
+        /// <param name="subscription">The subscription identifier.</param>
         public AutoSubscriber(IBus bus, string subscriptionId)
         {
             this.bus = bus;
@@ -48,7 +48,7 @@
                         .SingleOrDefault();
 
                     Delegate dispatchDelegate = Delegate.CreateDelegate(dispatchMethodType, Activator.CreateInstance(subscriptionInfo.ConcreteType), consumeMethod);
-                    busSubscribeMethod.Invoke(bus, new object[] { this.subscriptionId, dispatchDelegate });
+                    busSubscribeMethod.Invoke(bus, new object[] { string.Format("{0}.{1}", this.subscriptionId, subscriptionInfo.ConcreteType.Name), dispatchDelegate });
                 }
             }
         }

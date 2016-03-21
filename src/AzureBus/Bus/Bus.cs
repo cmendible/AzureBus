@@ -14,7 +14,6 @@
     public class Bus : IBus
     {
         private readonly NamespaceManager namespaceManager;
-        private readonly ConcurrentDictionary<string, IEnumerable<Delegate>> subscriptionActions = new ConcurrentDictionary<string, IEnumerable<Delegate>>();
         private readonly ConcurrentDictionary<string, SubscriptionClient> subscriptionClients = new ConcurrentDictionary<string, SubscriptionClient>();
         private readonly ConcurrentDictionary<string, TopicClient> topicClients = new ConcurrentDictionary<string, TopicClient>();
 
@@ -55,6 +54,7 @@
         /// </summary>
         /// <typeparam name="T">The message type</typeparam>
         /// <param name="message">The message to publish</param>
+        /// <param name="configure">The configure action.</param>
         public void Publish<T>(T message, Action<IPublishConfiguration> configure) where T : class
         {
             IPublishConfiguration configuration = this.Configuration.PublishConfiguration();
@@ -73,10 +73,10 @@
 
             BrokeredMessage envelope = new BrokeredMessage(JsonConvert.SerializeObject(message));
             envelope.Properties["Message.Type.AssemblyQualifiedName"] = messageType.AssemblyQualifiedName;
-            envelope.Properties["Message.Type.Assembly"] = messageType.Assembly.FullName;
             envelope.Properties["Message.Type.FullName"] = messageType.FullName;
-            envelope.Properties["Message.Type.Namespace"] = messageType.Namespace;
 
+            configuration.SetMessageMetadata(messageType, envelope.Properties);
+            
             envelope.MessageId = configuration.GetMessageId(message);
 
             topicClient.Send(envelope);
@@ -92,92 +92,77 @@
         /// Subscribes to a stream of messages that match a .NET type.
         /// </summary>
         /// <typeparam name="T">The type to subscribe to</typeparam>
-        /// <param name="subscriptionId">
-        /// A unique identifier for the subscription.
-        /// </param>
-        /// <param name="onMessage">
-        /// The action to run when a message arrives.
-        /// </param>
-        public void Subscribe<T>(string subscriptionId, Action<T> onMessage)
+        /// <param name="subscriptionId">The subscription identifier.</param>
+        /// <param name="onMessage">The action to run when a message arrives.</param>
+        public void Subscribe<T>(string subscriptionId, Action<T> onMessage) where T : class
         {
-            this.Subscribe<T>(subscriptionId, onMessage, (c) => { });
+            this.Subscribe<T>(onMessage, (c) => { c.WithSubscription(subscriptionId); });
         }
 
         /// <summary>
         /// Subscribes to a stream of messages that match a .NET type.
         /// </summary>
         /// <typeparam name="T">The type to subscribe to</typeparam>
-        /// <param name="subscriptionId">
-        /// A unique identifier for the subscription.
-        /// </param>
-        /// <param name="onMessage">
-        /// The action to run when a message arrives.
-        /// </param>
-        public void Subscribe<T>(string subscriptionId, Action<T> onMessage, Action<ISubscriptionConfiguration> configure)
+        /// <param name="subscription">A unique identifier for the subscription.</param>
+        /// <param name="onMessage">The action to run when a message arrives.</param>
+        /// <param name="configure">The configure action.</param>
+        public void Subscribe<T>(Action<T> onMessage, Action<ISubscriptionConfiguration> configure) where T : class
         {
+            Type messageType = typeof(T);
+
             ISubscriptionConfiguration configuration = this.Configuration.SubscribtionConfiguration();
             configure(configuration);
 
             string topic = this.CreateTopicIfNotExists<T>(configuration);
 
-            string realSubscriptionId = subscriptionId.ToLowerInvariant();
+            string realSubscriptionId = configuration.Subscription.ToLowerInvariant();
 
             if (!this.namespaceManager.SubscriptionExists(topic, realSubscriptionId))
             {
-                SubscriptionDescription dataCollectionTopic = this.namespaceManager.CreateSubscription(topic, realSubscriptionId);
+                SqlFilter filter = new SqlFilter(string.Format("[Message.Type.FullName] = '{0}'", messageType.FullName));
+                SubscriptionDescription dataCollectionTopic = this.namespaceManager.CreateSubscription(topic, realSubscriptionId, filter);
             }
 
             string descriptor = topic + ":" + realSubscriptionId;
-            subscriptionActions.AddOrUpdate(descriptor, new Delegate[] { onMessage }, (key, oldValue) => oldValue.Concat(new Delegate[] { onMessage }));
+            SubscriptionClient client = this.subscriptionClients.GetOrAdd(
+                descriptor, 
+                (d) => 
+                    {
+                        return SubscriptionClient.CreateFromConnectionString(
+                            this.Configuration.ConnectionString,
+                            topic,
+                            realSubscriptionId,
+                            configuration.ReceiveMode);
+                    });
 
-            Func<SubscriptionClient> clientSetup = () =>
+            OnMessageOptions options = new OnMessageOptions()
                 {
-                    SubscriptionClient client = SubscriptionClient.CreateFromConnectionString(
-                        this.Configuration.ConnectionString,
-                        topic,
-                        realSubscriptionId,
-                        configuration.ReceiveMode);
-
-                    OnMessageOptions options = new OnMessageOptions()
-                        {
-                            AutoComplete = false,
-                            MaxConcurrentCalls = configuration.MaxConcurrentCalls
-                        };
-
-                    client.OnMessage(envelope =>
-                        {
-                            this.Configuration.Logger.InfoFormat(
-                                "Message was received on Subscription {0} Topic {1} with MessageId {2}",
-                                realSubscriptionId,
-                                topic,
-                                envelope.MessageId);
-
-                            Type messageType = typeof(T);
-
-                            IEnumerable<Delegate> actions = subscriptionActions[descriptor]
-                                .Where(a => a.GetType().GetGenericArguments().First().FullName == envelope.Properties["Message.Type.FullName"].ToString());
-
-                            if (actions.Any())
-                            {
-                                foreach (Delegate action in actions)
-                                {
-                                    object message = JsonConvert.DeserializeObject(envelope.GetBody<string>(), messageType);
-
-                                    action.DynamicInvoke(message);
-                                }
-                                envelope.Complete();
-                            }
-                            else
-                            {
-                                this.Configuration.Logger.InfoFormat("No action was configured for type {0}", messageType.FullName);
-                            }
-                        },
-                        options);
-
-                    return client;
+                    AutoComplete = false,
+                    MaxConcurrentCalls = configuration.MaxConcurrentCalls
                 };
 
-            this.subscriptionClients.GetOrAdd(descriptor, clientSetup.Invoke());
+            
+            client.OnMessage(envelope =>
+                {
+                    try
+                    {
+                        this.Configuration.Logger.InfoFormat(
+                            "Message was received on Subscription {0} Topic {1} with MessageId {2}",
+                            realSubscriptionId,
+                            topic,
+                            envelope.MessageId);
+
+                        object message = JsonConvert.DeserializeObject(envelope.GetBody<string>(), messageType);
+                        onMessage(message as T);
+                        envelope.Complete();
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Configuration.Logger.Fatal(ex);
+                        envelope.Abandon();
+                    }
+                },
+                options);
         }
 
         /// <summary>
@@ -187,7 +172,6 @@
         {
             this.subscriptionClients.ToList().ForEach((s) => s.Value.Close());
             this.topicClients.ToList().ForEach((s) => s.Value.Close());
-            this.subscriptionActions.Clear();
         }
 
         /// <summary>

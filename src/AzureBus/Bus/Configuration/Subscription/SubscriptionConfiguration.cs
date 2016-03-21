@@ -14,10 +14,17 @@
             private set;
         }
 
+        public string Subscription
+        {
+            get;
+            private set;
+        }
+
         public SubscriptionConfiguration()
         {
             this.ReceiveMode = Microsoft.ServiceBus.Messaging.ReceiveMode.PeekLock;
             this.MaxConcurrentCalls = 1;
+            this.Subscription = "default";
         }
 
         public ISubscriptionConfiguration WithReceiveAndDelete()
@@ -29,6 +36,12 @@
         public ISubscriptionConfiguration WithMaxConcurrentCalls(int maxConcurrentCalls)
         {
             this.MaxConcurrentCalls = maxConcurrentCalls;
+            return this;
+        }
+
+        public ISubscriptionConfiguration WithSubscription(string subscription)
+        {
+            this.Subscription = subscription;
             return this;
         }
     }

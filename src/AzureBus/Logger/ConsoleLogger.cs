@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class ConsoleLogger : ILogger
+    public class ConsoleLogger : IAzureBusLogger
     {
         private const string layout = "{0} - {1} - {2} - {3}";
 

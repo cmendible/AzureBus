@@ -75,7 +75,7 @@
     <Compile Include="Bus\Configuration\IBusConfiguration.cs" />
     <Compile Include="Logger\ConsoleLogger.cs" />
     <Compile Include="Logger\EmptyLogger.cs" />
-    <Compile Include="Logger\ILogger.cs" />
+    <Compile Include="Logger\IAzureBusLogger.cs" />
     <Compile Include="Properties\AssemblyInfoVersion.cs" />
     <Compile Include="Queue\AzureQueue.cs" />
     <Compile Include="Queue\IQueue.cs" />

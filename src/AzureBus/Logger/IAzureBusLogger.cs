@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface ILogger
+    public interface IAzureBusLogger
     {
         void Debug(object message);
 

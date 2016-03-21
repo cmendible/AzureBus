@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class EmptyLogger : ILogger
+    public class EmptyLogger : IAzureBusLogger
     {
         public void Debug(object message)
         {

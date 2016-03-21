@@ -13,8 +13,8 @@
             // Create a bus instance.
             IBus bus = AzureCloud
                 .ConfigureBus()
-                .WithPublishConfiguration((c) => c.WithTopicByMessage())
-                .WithSubscriptionConfiguration((c) => c.WithTopicByMessage())
+                ////.WithPublishConfiguration((c) => c.WithTopicByMessageNamespace())
+                ////.WithSubscriptionConfiguration((c) => c.WithTopicByMessageNamespace())
                 .CreateBus();
 
             // Subscribe to messages.
