@@ -22,18 +22,36 @@
             private set;
         }
 
+        /// <summary>
+        /// Gets the logger.
+        /// </summary>
+        /// <value>
+        /// The logger.
+        /// </value>
         public IAzureBusLogger Logger
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the publish configuration.
+        /// </summary>
+        /// <value>
+        /// The publish configuration.
+        /// </value>
         public Func<IPublishConfiguration> PublishConfiguration
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the subscribtion configuration.
+        /// </summary>
+        /// <value>
+        /// The subscribtion configuration.
+        /// </value>
         public Func<ISubscriptionConfiguration> SubscribtionConfiguration
         {
             get;
@@ -57,19 +75,35 @@
         /// Sets the connection string
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        /// <returns>An BusConfiguration object.</returns>
+        /// <returns>
+        /// The BusConfiguration instance.
+        /// </returns>
         public IBusConfiguration WithConnectionString(string connectionString)
         {
             this.ConnectionString = connectionString;
             return this;
         }
 
+        /// <summary>
+        /// Sets the logger.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <returns>
+        /// The BusConfiguration instance.
+        /// </returns>
         public IBusConfiguration WithLogger(IAzureBusLogger logger)
         {
             this.Logger = logger;
             return this;
         }
 
+        /// <summary>
+        /// Sets the publish configuration.
+        /// </summary>
+        /// <param name="configure">The configure action</param>
+        /// <returns>
+        /// The BusConfiguration instance.
+        /// </returns>
         public IBusConfiguration WithPublishConfiguration(Action<IPublishConfiguration> configure)
         {
             this.PublishConfiguration = () => 
@@ -82,6 +116,13 @@
             return this;
         }
 
+        /// <summary>
+        /// Sets the subscription configuration.
+        /// </summary>
+        /// <param name="configure">The configure action</param>
+        /// <returns>
+        /// The BusConfiguration instance.
+        /// </returns>
         public IBusConfiguration WithSubscriptionConfiguration(Action<ISubscriptionConfiguration> configure)
         {
             this.SubscribtionConfiguration = () =>

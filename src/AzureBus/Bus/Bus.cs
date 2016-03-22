@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Linq;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
@@ -103,7 +102,6 @@
         /// Subscribes to a stream of messages that match a .NET type.
         /// </summary>
         /// <typeparam name="T">The type to subscribe to</typeparam>
-        /// <param name="subscription">A unique identifier for the subscription.</param>
         /// <param name="onMessage">The action to run when a message arrives.</param>
         /// <param name="configure">The configure action.</param>
         public void Subscribe<T>(Action<T> onMessage, Action<ISubscriptionConfiguration> configure) where T : class
