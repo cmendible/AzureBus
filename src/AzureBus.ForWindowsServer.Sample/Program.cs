@@ -13,7 +13,10 @@
             // Create a bus instance.
             IBus bus = AzureCloud
                 .ConfigureBus()
-                ////.WithPublishConfiguration((c) => c.WithTopicByMessageNamespace())
+                .WithPublishConfiguration((c) => c.WithMessageMetadata((m, configure) => 
+                {
+                    configure.Add("Message.Activo", ((SampleMessage)m).Activo);
+                }))
                 ////.WithSubscriptionConfiguration((c) => c.WithTopicByMessageNamespace())
                 .CreateBus();
 
@@ -21,11 +24,12 @@
             var autoSubscriber = new AutoSubscriber(bus, "AzureBus.Sample.Console");
             autoSubscriber.Subscribe(Assembly.GetExecutingAssembly());
 
+            var activo = true;
             // Send 100 messages.
             for (int i = 0; i < 10; i++)
             {
-                bus.Publish(new SampleMessage(i.ToString()));
-                bus.Publish(new AnotherSampleMessage(i.ToString()));
+                activo = !activo;
+                bus.Publish(new SampleMessage(i.ToString(), activo));
             }
 
             ////// Create a Queue instance

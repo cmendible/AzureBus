@@ -12,9 +12,10 @@
         /// Initializes a new instance of the <see cref="SampleMessage"/> class.
         /// </summary>
         /// <param name="value">The value.</param>
-        public SampleMessage(string value)
+        public SampleMessage(string value, bool activo)
         {
             this.Value = value;
+            this.Activo = activo;
         }
 
         /// <summary>
@@ -25,6 +26,9 @@
         /// </value>
         [DataMember]
         public string Value { get; private set; }
+
+        [DataMember]
+        public bool Activo { get; private set; }
     }
 
     /// <summary>

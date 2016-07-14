@@ -11,7 +11,7 @@
             private set;
         }
 
-        public Action<Type, IDictionary<string, object>> SetMessageMetadata
+        public Action<object, IDictionary<string, object>> SetMessageMetadata
         {
             get;
             private set;
@@ -30,7 +30,7 @@
             return this;
         }
 
-        public IPublishConfiguration WithMessageMetadata(Action<Type, IDictionary<string, object>> configure)
+        public IPublishConfiguration WithMessageMetadata(Action<object, IDictionary<string, object>> configure)
         {
             this.SetMessageMetadata = configure;
             return this;

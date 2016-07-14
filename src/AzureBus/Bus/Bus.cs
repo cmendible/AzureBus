@@ -74,7 +74,7 @@
             envelope.Properties["Message.Type.AssemblyQualifiedName"] = messageType.AssemblyQualifiedName;
             envelope.Properties["Message.Type.FullName"] = messageType.FullName;
 
-            configuration.SetMessageMetadata(messageType, envelope.Properties);
+            configuration.SetMessageMetadata(message, envelope.Properties);
             
             envelope.MessageId = configuration.GetMessageId(message);
 
