@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureBus.ForWindowsServer",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureBus.ForWindowsServer.Sample", "AzureBus.ForWindowsServer.Sample\AzureBus.ForWindowsServer.Sample.csproj", "{DC9A5D3E-13F8-418D-ACF3-ABAEA6D236D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureBus.Amqp", "AzureBus.Amqp\AzureBus.Amqp.csproj", "{A33C7662-FEA0-41CA-BA4F-6326C581DBF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{DC9A5D3E-13F8-418D-ACF3-ABAEA6D236D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC9A5D3E-13F8-418D-ACF3-ABAEA6D236D9}.Release|x86.ActiveCfg = Release|x86
 		{DC9A5D3E-13F8-418D-ACF3-ABAEA6D236D9}.Release|x86.Build.0 = Release|x86
+		{A33C7662-FEA0-41CA-BA4F-6326C581DBF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A33C7662-FEA0-41CA-BA4F-6326C581DBF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A33C7662-FEA0-41CA-BA4F-6326C581DBF5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A33C7662-FEA0-41CA-BA4F-6326C581DBF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A33C7662-FEA0-41CA-BA4F-6326C581DBF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A33C7662-FEA0-41CA-BA4F-6326C581DBF5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata >
+    <id>AzureBus.Amqp</id>
+    <version>$version$</version>
+    <authors>Carlos Mendible</authors>
+    <owners>Carlos Mendible</owners>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+      <dependency id="AMQPNetLite" version="1.2.0" />
+    </dependencies>
+    <summary>AzureBus.Amqp: inspired by the simple EasyNetQ API, this library helps you get started with Service Bus 1.1 for Windows Server or Azure Service Bus pub/sub and queues! using AMQP</summary>
+    <description>AzureBus.Amqp: inspired by the simple EasyNetQ API, this library helps you get started with Service Bus 1.1 for Windows Server or Azure Service Bus pub/sub and queues! using AMQP</description>
+    <language>en-US</language>
+    <title>AzureBus.Amqp</title>
+    <projectUrl>https://github.com/cmendible/AzureBus</projectUrl>
+    <tags>AzureBus Service Bus for Windows Server pub sub topics queues</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\AzureBus.Amqp.dll" target="lib\net40" />
+    <file src="bin\Release\AzureBus.Amqp.xml" target="lib\net40" />
+  </files>
+</package>
