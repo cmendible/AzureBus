@@ -6,8 +6,8 @@
     <authors>Carlos Mendible</authors>
     <owners>Carlos Mendible</owners>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="7.0.1" />
-      <dependency id="ServiceBus.v1_1" version="1.0.5" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+      <dependency id="ServiceBus.v1_1" version="1.0.6" />
     </dependencies>
     <summary>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Service Bus 1.1 for Windows Server pub/sub and queues!</summary>
     <description>AzureBus: inspired by the simple EasyNetQ API, this library helps you get started with Service Bus 1.1 for Windows Server pub/sub and queues!</description>
