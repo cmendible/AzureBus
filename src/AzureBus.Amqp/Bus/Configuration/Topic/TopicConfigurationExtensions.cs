@@ -14,7 +14,7 @@
 
         public static T WithTopicByMessageNamespace<T>(this ITopicConfiguration<T> configuration, string prefix) where T : class, ITopicConfiguration
         {
-            return configuration.WithTopicName((t) => { return string.Format("{0}/{1}", prefix, t.FullName.ToLowerInvariant()); });
+            return configuration.WithTopicName((t) => { return string.Format("{0}/{1}", prefix, t.Namespace.ToLowerInvariant()); });
         }
     }
 }
