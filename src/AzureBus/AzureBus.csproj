@@ -78,10 +78,25 @@
     <Compile Include="Logger\IAzureBusLogger.cs" />
     <Compile Include="Properties\AssemblyInfoVersion.cs" />
     <Compile Include="Queue\AzureQueue.cs" />
+    <Compile Include="Queue\Configuration\QueueConfiguration.cs" />
+    <Compile Include="Queue\Configuration\QueueConfigurationExtensions.cs" />
+    <Compile Include="Queue\Configuration\IQueueConfiguration.cs" />
     <Compile Include="Queue\IQueue.cs" />
     <Compile Include="Bus\IBus.cs" />
     <Compile Include="Bus\AutoSubscriber\IConsume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queue\SendConfig\ISendConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Queue\SendConfig\SendConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Queue\SubscriptionConfig\ISubscriptionConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Queue\SubscriptionConfig\SubscriptionConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

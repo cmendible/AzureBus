@@ -1,5 +1,6 @@
 ﻿namespace AzureBus
 {
+    using AzureBus.Queue.Configuration;
     using System;
 
     /// <summary>
@@ -14,6 +15,15 @@
         public static IBusConfiguration ConfigureBus()
         {
             return new BusConfiguration();
+        }
+
+        /// <summary>
+        /// Creates an QueueConfiguration object.
+        /// </summary>
+        /// <returns>An QueueConfiguration object.</returns>
+        public static IQueueConfiguration ConfigureQueue()
+        {
+            return new QueueConfiguration();
         }
 
         /// <summary>
@@ -39,23 +49,26 @@
                 .CreateBus();
         }
 
-        /// <summary>
-        /// Creates the queue.
-        /// </summary>
-        /// <returns></returns>
-        public static IQueue CreateQueue()
-        {
-            return new AzureQueue();
-        }
+        /////// <summary>
+        /////// Creates the queue.
+        /////// </summary>
+        /////// <returns></returns>
+        ////public static IQueue CreateQueue()
+        ////{
+        ////    return new AzureQueue();
+        ////}
 
         /// <summary>
         /// Creates the queue.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
         /// <returns></returns>
-        public static IQueue CreateQueue(string connectionString)
+        public static Queue.IQueue CreateQueue(string connectionString)
         {
-            return new AzureQueue(connectionString);
+            return new QueueConfiguration()
+                .WithConnectionString(connectionString)
+                .CreateQueue();
+            //return new AzureQueue(connectionString);
         }
     }
 }

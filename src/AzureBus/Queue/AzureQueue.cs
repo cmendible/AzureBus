@@ -1,4 +1,4 @@
-﻿namespace AzureBus
+﻿namespace AzureBus.Queue
 {
     using System;
     using System.Collections.Concurrent;
@@ -6,39 +6,44 @@
     using System.Linq;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using AzureBus.Queue.Configuration;
 
     /// <summary>
     /// Microsoft QueueClient Abstraction.
     /// </summary>
     public class AzureQueue : IQueue
     {
-        private readonly string connectionString;
+        //private readonly string connectionString;
         private readonly NamespaceManager namespaceManager;
         private readonly ConcurrentDictionary<string, QueueClient> queueClients = new ConcurrentDictionary<string, QueueClient>();
         private readonly ConcurrentDictionary<string, QueueClient> subscriptions = new ConcurrentDictionary<string, QueueClient>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AzureQueue"/> class.
+        /// Initializes a new instance of the <see cref="Queue" /> class.
         /// </summary>
-        internal AzureQueue()
-            : this(ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"])
+        /// <param name="configuration">The configuration.</param>
+        internal AzureQueue(IQueueConfiguration configuration)
         {
+            this.Configuration = configuration;
+            this.namespaceManager = NamespaceManager.CreateFromConnectionString(configuration.ConnectionString);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AzureQueue"/> class.
+        /// Gets the configuration.
         /// </summary>
-        /// <param name="connectionString">The connection string.</param>
-        internal AzureQueue(string connectionString)
+        /// <value>
+        /// The configuration.
+        /// </value>
+        public IQueueConfiguration Configuration
         {
-            this.connectionString = connectionString;
-            this.namespaceManager = NamespaceManager.CreateFromConnectionString(this.connectionString);
+            get;
+            private set;
         }
 
         /// <summary>
         /// Sends a message to the Queue.
         /// </summary>
-        /// <typeparam name="T">The message type</typeparam>
+        /// <typeparam name="T">The message type</typeparam>    
         /// <param name="message">The message to publish</param>
         public void Send<T>(T message) where T : class
         {
@@ -46,18 +51,17 @@
 
             if (!this.queueClients.ContainsKey(queueName))
             {
-                this.queueClients.GetOrAdd(queueName, QueueClient.CreateFromConnectionString(connectionString, queueName));
+                this.queueClients.GetOrAdd(queueName, QueueClient.CreateFromConnectionString(this.Configuration.ConnectionString, queueName));
             }
 
             QueueClient queueClient = this.queueClients[queueName];
-
             queueClient.Send(new BrokeredMessage(message) { MessageId = message.GetHashCode().ToString() });
         }
 
         /// <summary>
         /// Subscribes to a stream of messages that match a .NET type.
         /// </summary>
-        /// <typeparam name="T">The type to subscribe to</typeparam>
+        /// <typeparam name="T">The type to subscribe to</typeparam>        
         /// <param name="onMessage">
         /// The action to run when a message arrives.
         /// </param>
@@ -65,15 +69,29 @@
         {
             string queueName = this.CreateQueueIfNotExists<T>();
 
-            QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, queueName);
+            QueueClient queueClient = QueueClient.CreateFromConnectionString(this.Configuration.ConnectionString, queueName, ReceiveMode.ReceiveAndDelete);
+
+            Queue.SubscriptionConfig.ISubscriptionConfiguration subscriptionConfiguration = this.Configuration.SubscriptionConfiguration();
 
             OnMessageOptions options = new OnMessageOptions();
             options.AutoComplete = true;
-            options.MaxConcurrentCalls = 1;
+            options.MaxConcurrentCalls = subscriptionConfiguration.MaxConcurrentCalls;
 
             queueClient.OnMessage(message =>
                 {
-                    onMessage.Invoke(message.GetBody<T>());
+                    try
+                    {
+                        this.Configuration.Logger.InfoFormat(
+                            "Message was received on Queue {0} with MessageId {1}",
+                            queueName,
+                            message.MessageId);
+
+                        onMessage.Invoke(message.GetBody<T>());
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Configuration.Logger.Fatal(ex);
+                    }
                 },
                 options);
 
@@ -93,11 +111,11 @@
         /// Creates the topic if not exists.
         /// </summary>
         /// <typeparam name="T">type of the message</typeparam>
-        /// <returns>The topic name</returns>
+        /// <returns>The queue name</returns>
         private string CreateQueueIfNotExists<T>()
         {
             string queueName = string.Format("{0}", typeof(T).FullName.ToLowerInvariant());
-
+            
             if (!this.namespaceManager.QueueExists(queueName))
             {
                 this.namespaceManager.CreateQueue(queueName);
@@ -105,5 +123,6 @@
 
             return queueName;
         }
+
     }
 }

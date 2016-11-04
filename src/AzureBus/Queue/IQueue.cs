@@ -1,4 +1,4 @@
-﻿namespace AzureBus
+﻿namespace AzureBus.Queue
 {
     using System;
 
@@ -22,5 +22,14 @@
         /// The action to run when a message arrives.
         /// </param>
         void Subscribe<T>(Action<T> onMessage);
+
+        ///// <summary>
+        ///// Obtiene la función con la que se obtiene el nombre de la cola
+        ///// </summary>
+        //Func<Type, string> GetQueueName { get; }
+
+        //TimeSpan DuplicateDetectionHistoryTimeWindow { get; }
+
+        //bool RequiresDuplicateDetection { get; }
     }
 }
