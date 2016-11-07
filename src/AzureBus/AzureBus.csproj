@@ -81,20 +81,23 @@
     <Compile Include="Queue\Configuration\QueueConfiguration.cs" />
     <Compile Include="Queue\Configuration\QueueConfigurationExtensions.cs" />
     <Compile Include="Queue\Configuration\IQueueConfiguration.cs" />
+    <Compile Include="Queue\Configuration\QueueName\IQueueNameConfiguration.cs" />
+    <Compile Include="Queue\Configuration\QueueName\IQueueNameConfiguration[T].cs" />
+    <Compile Include="Queue\Configuration\QueueName\QueueNameConfiguration[T].cs" />
     <Compile Include="Queue\IQueue.cs" />
     <Compile Include="Bus\IBus.cs" />
     <Compile Include="Bus\AutoSubscriber\IConsume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queue\SendConfig\ISendConfiguration.cs">
+    <Compile Include="Queue\Configuration\Send\ISendConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Queue\SendConfig\SendConfiguration.cs">
+    <Compile Include="Queue\Configuration\Send\SendConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Queue\SubscriptionConfig\ISubscriptionConfiguration.cs">
+    <Compile Include="Queue\Configuration\Subscription\ISubscriptionConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Queue\SubscriptionConfig\SubscriptionConfiguration.cs">
+    <Compile Include="Queue\Configuration\Subscription\SubscriptionConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

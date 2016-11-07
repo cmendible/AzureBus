@@ -52,7 +52,7 @@
         /// <value>
         /// The subscribtion configuration.
         /// </value>
-        public Func<ISubscriptionConfiguration> SubscribtionConfiguration
+        public Func<ISubscriptionConfiguration> SubscriptionConfiguration
         {
             get;
             private set;
@@ -68,7 +68,7 @@
             this.Logger = new EmptyLogger();
 
             this.PublishConfiguration = () => { return new PublishConfiguration(); };
-            this.SubscribtionConfiguration = () => { return new SubscriptionConfiguration(); };
+            this.SubscriptionConfiguration = () => { return new SubscriptionConfiguration(); };
         }
 
         /// <summary>
@@ -125,7 +125,7 @@
         /// </returns>
         public IBusConfiguration WithSubscriptionConfiguration(Action<ISubscriptionConfiguration> configure)
         {
-            this.SubscribtionConfiguration = () =>
+            this.SubscriptionConfiguration = () =>
             {
                 ISubscriptionConfiguration configuration = new SubscriptionConfiguration();
                 configure(configuration);

@@ -1,4 +1,4 @@
-﻿namespace AzureBus.Queue.Configuration
+﻿namespace AzureBus.Queue
 {
     public static class QueueConfigurationExtensions
     {

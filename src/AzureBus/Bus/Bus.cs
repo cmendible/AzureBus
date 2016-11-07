@@ -108,7 +108,7 @@
         {
             Type messageType = typeof(T);
 
-            ISubscriptionConfiguration configuration = this.Configuration.SubscribtionConfiguration();
+            ISubscriptionConfiguration configuration = this.Configuration.SubscriptionConfiguration();
             configure(configuration);
 
             string topic = this.CreateTopicIfNotExists<T>(configuration);

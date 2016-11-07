@@ -136,20 +136,29 @@
     <Compile Include="..\AzureBus\Queue\Configuration\QueueConfigurationExtensions.cs">
       <Link>Queue\Configuration\QueueConfigurationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AzureBus\Queue\Configuration\QueueName\IQueueNameConfiguration.cs">
+      <Link>Queue\Configuration\QueueName\IQueueNameConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Queue\Configuration\QueueName\IQueueNameConfiguration[T].cs">
+      <Link>Queue\Configuration\QueueName\IQueueNameConfiguration[T].cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Queue\Configuration\QueueName\QueueNameConfiguration[T].cs">
+      <Link>Queue\Configuration\QueueName\QueueNameConfiguration[T].cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Queue\Configuration\Send\ISendConfiguration.cs">
+      <Link>Queue\Configuration\Send\ISendConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Queue\Configuration\Send\SendConfiguration.cs">
+      <Link>Queue\Configuration\Send\SendConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Queue\Configuration\Subscription\ISubscriptionConfiguration.cs">
+      <Link>Queue\Configuration\Subscription\ISubscriptionConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AzureBus\Queue\Configuration\Subscription\SubscriptionConfiguration.cs">
+      <Link>Queue\Configuration\Subscription\SubscriptionConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\AzureBus\Queue\IQueue.cs">
       <Link>Queue\IQueue.cs</Link>
-    </Compile>
-    <Compile Include="..\AzureBus\Queue\SendConfig\ISendConfiguration.cs">
-      <Link>Queue\SendConfig\ISendConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\AzureBus\Queue\SendConfig\SendConfiguration.cs">
-      <Link>Queue\SendConfig\SendConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\AzureBus\Queue\SubscriptionConfig\ISubscriptionConfiguration.cs">
-      <Link>Queue\SubscriptionConfig\ISubscriptionConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\AzureBus\Queue\SubscriptionConfig\SubscriptionConfiguration.cs">
-      <Link>Queue\SubscriptionConfig\SubscriptionConfiguration.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

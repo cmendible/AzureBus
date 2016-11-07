@@ -1,8 +1,8 @@
-﻿namespace AzureBus.Queue.SubscriptionConfig
+﻿namespace AzureBus.Queue
 {
     using System;
 
-    public class SubscriptionConfiguration : ISubscriptionConfiguration
+    public class SubscriptionConfiguration : QueueNameConfiguration<ISubscriptionConfiguration>, ISubscriptionConfiguration
     {
         public int MaxConcurrentCalls
         {

@@ -1,4 +1,4 @@
-﻿namespace AzureBus.Queue.Configuration
+﻿namespace AzureBus.Queue
 {
     using System;
     using System.Configuration;
@@ -40,7 +40,7 @@
         /// <value>
         /// The send configuration.
         /// </value>
-        public Func<Queue.SendConfig.ISendConfiguration> SendConfiguration
+        public Func<ISendConfiguration> SendConfiguration
         {
             get;
             private set;
@@ -52,7 +52,7 @@
         /// <value>
         /// The subscribtion configuration.
         /// </value>
-        public Func<Queue.SubscriptionConfig.ISubscriptionConfiguration> SubscriptionConfiguration
+        public Func<ISubscriptionConfiguration> SubscriptionConfiguration
         {
             get;
             private set;
@@ -66,8 +66,8 @@
             this.ConnectionString = ConfigurationManager.AppSettings.AllKeys.Contains("Microsoft.ServiceBus.ConnectionString") ? ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"] : string.Empty;
             this.Logger = new EmptyLogger();
 
-            this.SendConfiguration = () => { return new Queue.SendConfig.SendConfiguration(); };
-            this.SubscriptionConfiguration = () => { return new Queue.SubscriptionConfig.SubscriptionConfiguration(); };
+            this.SendConfiguration = () => { return new SendConfiguration(); };
+            this.SubscriptionConfiguration = () => { return new SubscriptionConfiguration(); };
         }
 
         /// <summary>
@@ -96,7 +96,6 @@
             return this;
         }
 
-
         /// <summary>
         /// Sets the send configuration.
         /// </summary>
@@ -104,18 +103,17 @@
         /// <returns>
         /// The QueueConfiguration instance.
         /// </returns>
-        public IQueueConfiguration WithSendConfiguration(Action<Queue.SendConfig.ISendConfiguration> configure)
+        public IQueueConfiguration WithSendConfiguration(Action<ISendConfiguration> configure)
         {
             this.SendConfiguration = () =>
             {
-                Queue.SendConfig.ISendConfiguration configuration = new Queue.SendConfig.SendConfiguration();
+                ISendConfiguration configuration = new SendConfiguration();
                 configure(configuration);
                 return configuration;
             };
 
             return this;
         }
-
 
         /// <summary>
         /// Sets the subscription configuration.
@@ -124,11 +122,11 @@
         /// <returns>
         /// The QueueConfiguration instance.
         /// </returns>
-        public IQueueConfiguration WithSubscriptionConfiguration(Action<Queue.SubscriptionConfig.ISubscriptionConfiguration> configure)
+        public IQueueConfiguration WithSubscriptionConfiguration(Action<ISubscriptionConfiguration> configure)
         {
             this.SubscriptionConfiguration = () =>
             {
-                Queue.SubscriptionConfig.ISubscriptionConfiguration configuration = new Queue.SubscriptionConfig.SubscriptionConfiguration();
+                ISubscriptionConfiguration configuration = new SubscriptionConfiguration();
                 configure(configuration);
                 return configuration;
             };

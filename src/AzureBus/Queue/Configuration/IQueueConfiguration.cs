@@ -1,6 +1,5 @@
-﻿namespace AzureBus.Queue.Configuration
+﻿namespace AzureBus.Queue
 {
-    using queueSubscription = Queue.SubscriptionConfig;
     using System;
 
     public interface IQueueConfiguration
@@ -27,7 +26,7 @@
         /// <value>
         /// The send configuration.
         /// </value>
-        Func<AzureBus.Queue.SendConfig.ISendConfiguration> SendConfiguration { get; } 
+        Func<ISendConfiguration> SendConfiguration { get; } 
 
         /// <summary>
         /// Gets the subscribtion configuration.
@@ -35,7 +34,7 @@
         /// <value>
         /// The subscribtion configuration.
         /// </value>
-        Func<queueSubscription.ISubscriptionConfiguration> SubscriptionConfiguration { get; }
+        Func<ISubscriptionConfiguration> SubscriptionConfiguration { get; }
 
         /// <summary>
         /// Sets the connection string.
@@ -58,7 +57,7 @@
         /// <returns>
         /// The QueueConfiguration instance.
         /// </returns>
-        IQueueConfiguration WithSendConfiguration(Action<AzureBus.Queue.SendConfig.ISendConfiguration> configure);
+        IQueueConfiguration WithSendConfiguration(Action<ISendConfiguration> configure);
 
         /// <summary>
         /// Sets the subscription configuration.
@@ -67,7 +66,7 @@
         /// <returns>
         /// The QueueConfiguration instance.
         /// </returns>
-        IQueueConfiguration WithSubscriptionConfiguration(Action<queueSubscription.ISubscriptionConfiguration> configure);
+        IQueueConfiguration WithSubscriptionConfiguration(Action<ISubscriptionConfiguration> configure);
 
 
     }

@@ -21,7 +21,9 @@
         /// <param name="onMessage">
         /// The action to run when a message arrives.
         /// </param>
-        void Subscribe<T>(Action<T> onMessage);
+        void Subscribe<T>(Action<T> onMessage) where T : class;
+
+        void Subscribe<T>(Action<T> onMessage, Action<ISubscriptionConfiguration> configure) where T : class;
 
         ///// <summary>
         ///// Obtiene la función con la que se obtiene el nombre de la cola

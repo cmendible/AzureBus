@@ -34,7 +34,7 @@
         /// <value>
         /// The subscribtion configuration.
         /// </value>
-        Func<ISubscriptionConfiguration> SubscribtionConfiguration { get; }
+        Func<ISubscriptionConfiguration> SubscriptionConfiguration { get; }
 
         /// <summary>
         /// Sets the connection string.

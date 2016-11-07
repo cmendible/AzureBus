@@ -1,9 +1,9 @@
-﻿namespace AzureBus.Queue.SendConfig
+﻿namespace AzureBus.Queue
 {
     using System;
     using System.Collections.Generic;
 
-    public class SendConfiguration : ISendConfiguration
+    public class SendConfiguration : QueueNameConfiguration<ISendConfiguration>, ISendConfiguration
     {
         public Func<object, string> GetMessageId
         {
@@ -21,8 +21,5 @@
             this.GetMessageId = configure;
             return this;
         }
-
-      
-
     }
 }

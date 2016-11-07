@@ -6,7 +6,6 @@
     using System.Linq;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using AzureBus.Queue.Configuration;
 
     /// <summary>
     /// Microsoft QueueClient Abstraction.
@@ -47,7 +46,15 @@
         /// <param name="message">The message to publish</param>
         public void Send<T>(T message) where T : class
         {
-            string queueName = this.CreateQueueIfNotExists<T>();
+            this.Send<T>(message, (c) => { });
+        }
+
+        public void Send<T>(T message, Action<ISendConfiguration> configure) where T : class
+        {
+            ISendConfiguration configuration = this.Configuration.SendConfiguration();
+            configure(configuration);
+
+            string queueName = this.CreateQueueIfNotExists<T>(configuration);
 
             if (!this.queueClients.ContainsKey(queueName))
             {
@@ -65,34 +72,40 @@
         /// <param name="onMessage">
         /// The action to run when a message arrives.
         /// </param>
-        public void Subscribe<T>(Action<T> onMessage)
+        public void Subscribe<T>(Action<T> onMessage) where T : class
         {
-            string queueName = this.CreateQueueIfNotExists<T>();
+            this.Subscribe<T>(onMessage, (c) => { });
+        }
+
+        public void Subscribe<T>(Action<T> onMessage, Action<ISubscriptionConfiguration> configure) where T : class
+        {
+            ISubscriptionConfiguration configuration = this.Configuration.SubscriptionConfiguration();
+            configure(configuration);
+
+            string queueName = this.CreateQueueIfNotExists<T>(configuration);
 
             QueueClient queueClient = QueueClient.CreateFromConnectionString(this.Configuration.ConnectionString, queueName, ReceiveMode.ReceiveAndDelete);
 
-            Queue.SubscriptionConfig.ISubscriptionConfiguration subscriptionConfiguration = this.Configuration.SubscriptionConfiguration();
-
             OnMessageOptions options = new OnMessageOptions();
             options.AutoComplete = true;
-            options.MaxConcurrentCalls = subscriptionConfiguration.MaxConcurrentCalls;
+            options.MaxConcurrentCalls = configuration.MaxConcurrentCalls;
 
             queueClient.OnMessage(message =>
+            {
+                try
                 {
-                    try
-                    {
-                        this.Configuration.Logger.InfoFormat(
-                            "Message was received on Queue {0} with MessageId {1}",
-                            queueName,
-                            message.MessageId);
+                    this.Configuration.Logger.InfoFormat(
+                        "Message was received on Queue {0} with MessageId {1}",
+                        queueName,
+                        message.MessageId);
 
-                        onMessage.Invoke(message.GetBody<T>());
-                    }
-                    catch (Exception ex)
-                    {
-                        this.Configuration.Logger.Fatal(ex);
-                    }
-                },
+                    onMessage.Invoke(message.GetBody<T>());
+                }
+                catch (Exception ex)
+                {
+                    this.Configuration.Logger.Fatal(ex);
+                }
+            },
                 options);
 
             this.subscriptions.GetOrAdd(queueName, queueClient);
@@ -112,10 +125,10 @@
         /// </summary>
         /// <typeparam name="T">type of the message</typeparam>
         /// <returns>The queue name</returns>
-        private string CreateQueueIfNotExists<T>()
+        private string CreateQueueIfNotExists<T>(IQueueNameConfiguration configuration)
         {
-            string queueName = string.Format("{0}", typeof(T).FullName.ToLowerInvariant());
-            
+            string queueName = configuration.GetQueueName(typeof(T));
+
             if (!this.namespaceManager.QueueExists(queueName))
             {
                 this.namespaceManager.CreateQueue(queueName);
@@ -123,6 +136,5 @@
 
             return queueName;
         }
-
     }
 }
