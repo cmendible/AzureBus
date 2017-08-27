@@ -7,3 +7,4 @@ obj
 bin
 /src/.nuget/package
 *.user
+.vs/

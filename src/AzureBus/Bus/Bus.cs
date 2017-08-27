@@ -139,6 +139,12 @@
                     MaxConcurrentCalls = configuration.MaxConcurrentCalls
                 };
 
+#if AZURE
+            if (configuration.AutoRenewTimeout != null)
+            {
+                options.AutoRenewTimeout = configuration.AutoRenewTimeout;
+            }
+#endif
             
             client.OnMessage(envelope =>
                 {

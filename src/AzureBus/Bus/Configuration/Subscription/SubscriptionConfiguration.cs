@@ -1,4 +1,6 @@
-﻿namespace AzureBus
+﻿using System;
+
+namespace AzureBus
 {
     public class SubscriptionConfiguration : TopicConfiguration<ISubscriptionConfiguration>, ISubscriptionConfiguration
     {
@@ -15,6 +17,12 @@
         }
 
         public string Subscription
+        {
+            get;
+            private set;
+        }
+
+        public TimeSpan AutoRenewTimeout
         {
             get;
             private set;
@@ -42,6 +50,12 @@
         public ISubscriptionConfiguration WithSubscription(string subscription)
         {
             this.Subscription = subscription;
+            return this;
+        }
+
+        public ISubscriptionConfiguration WithMWithAutoRenewTimeout(TimeSpan autoRenewTimeout)
+        {
+            TimeSpan AutoRenewTimeout = autoRenewTimeout;
             return this;
         }
     }
